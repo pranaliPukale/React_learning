@@ -1,7 +1,7 @@
 import logo from "../sun1.png";
-const Header=()=>{
+const Header1=()=>{
  return (
-    <div className="container-fluid">
+   
        <nav className="navbar navbar-dark bg-dark">
          <a className="navbar-brand" href="#">
             <nav>
@@ -17,7 +17,7 @@ const Header=()=>{
             <button className="btn btn-outline-success" type="submit"></button>
         </form>  
        </nav>
-    </div>
+   
  );
 };
-export default Header;
+export default Header1;
