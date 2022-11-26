@@ -20,6 +20,7 @@
      const ProductsList = (props:propsList) => {
       // const products = props.data || []
        const {data:productList, cardName} = props;
+       let index=0;
        return (
          <div>
            <div>
@@ -28,9 +29,8 @@
              </div>
            </div>
            <div className="row ">
-             {productList.map((product) =>
-              <div className='col-3'>
-                <ProductCard key={product.sku} {...product} /></div>)}
+           {productList.map((product) => <div className='col-3' key={product.sku}  >
+            <ProductCard  {...product} /></div>)}
            </div> 
          </div>
        )
