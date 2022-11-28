@@ -1,6 +1,8 @@
 import React,{ ReactNode } from 'react';
 import {CartModel} from './CartModel'
 import {product} from './ProductList';
+
+
 interface AppState {
     isModelOpen: boolean
  }
@@ -16,13 +18,15 @@ interface AppState {
   this.setState({
       isModelOpen :true
   });
+
   
   }
   render(): ReactNode {
-      console.log(this.props.availableSizes)
+      
+      
     return(
       <>
-      <div className="card mb-2">
+      <div className="card my-2">
        <div className="card-header">
        {this.props.title}
   </div>
@@ -36,7 +40,8 @@ interface AppState {
   <button type="button" className="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#CartModal">Add to cart</button>
   </div>    
       </div> 
-<CartModel  />
+    
+<CartModel sizes= {this.props.availableSizes} />
 </>
     );
 }

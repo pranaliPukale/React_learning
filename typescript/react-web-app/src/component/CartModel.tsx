@@ -1,5 +1,9 @@
-export const CartModel = () => {
+
+export const CartModel = (props:{sizes:string[]}) => {
+   
+   console.log(props.sizes);
     return (
+        
         <div className="modal" id="CartModal" >
             <div className="modal-dialog">
                 <div className="modal-content">
@@ -9,7 +13,21 @@ export const CartModel = () => {
                     </div>
                     <div className="modal-body"></div>
                     <form className="row g-3 needs-validation" >
-                        <div className="form-group">
+                     
+                    
+                        <div className="form-group px-3">
+                            <label>Email</label>
+                        <div className="input-group flex-nowrap">
+                             <span className="input-group-text" id="addon-wrapping"></span>
+                             <input type="email" className="form-control" placeholder="Email" aria-label="Username" aria-describedby="addon-wrapping"/>
+                        </div>
+                        <br></br>
+                        <label>Password</label>
+                        <div className="input-group flex-nowrap">
+                             <span className="input-group-text" id="addon-wrapping"></span>
+                             <input type="Password" className="form-control" aria-label="Username" aria-describedby="addon-wrapping"/>
+                        </div>
+                        <br></br>                          
                             <select className="form-select" >
                                 <option >Select Quantity</option>
                                 <option value="1">One</option>
@@ -18,28 +36,22 @@ export const CartModel = () => {
                                 <option value="4">Four</option>
                                 <option value="5">Five</option>
                             </select>
-                        </div>
-                        <div className="form-group">
+                          </div>                          
+                        <div className="form-group px-3">                          
                             <label>Select Size</label><br />
-                            <div className="form-check form-check-inline">
-                                <input className="form-check-input" type="radio" name="size" value="option1" />
-                                <label className="form-check-label" >S</label>
-                            </div>
-                            <div className="form-check form-check-inline">
-                                <input className="form-check-input" type="radio" name="size" value="option2" />
-                                <label className="form-check-label" >M</label>
-                            </div>
-                            <div className="form-check form-check-inline">
-                                <input className="form-check-input" type="radio" name="size" value="option3" />
-                                <label className="form-check-label" >XL </label>
-                            </div>
+                            {props.sizes.map((size)=>
+                             <div className="form-check form-check-inline" key={size}>
+                                <input className="form-check-input" type="radio" name="size" value={size} />
+                                <label className="form-check-label" >{size}</label>                                          
+                            </div>)
+                            } 
+                            <div className="modal-footer">
+                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                             <button type="button" className="btn btn-primary">Checkout</button>
+                           </div>                         
                         </div>
                     </form>
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary">Checkout</button>
-                </div>
+                </div>               
             </div>
             </div>
         );

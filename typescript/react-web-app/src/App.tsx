@@ -11,7 +11,7 @@ const App=()=> {
       <div >
         <Header1 />
       
-         <ProductList data={products} cardName={"test name"} />
+         <ProductList data={products} cardName={"Product"} />
       </div>
    </div>
   );
