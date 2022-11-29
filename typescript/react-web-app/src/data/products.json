@@ -1,6 +1,6 @@
 [
     {
-      "availableSizes": ["S", "XS"],
+      "availableSizes": ["S","SX"],
       "currencyFormat": "$",
       "currencyId": "USD",
       "description": "4 MSL",

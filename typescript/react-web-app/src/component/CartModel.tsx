@@ -1,10 +1,10 @@
 
-export const CartModel = (props:{sizes:string[]}) => {
+export const CartModel = (props:{sizes:string[],id1:string}) => {
    
-   console.log(props.sizes);
+   console.log(props.sizes+"======="+props.id1);
     return (
         
-        <div className="modal" id="CartModal" >
+        <div className="modal" id={props.id1} >
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">                      
@@ -39,11 +39,14 @@ export const CartModel = (props:{sizes:string[]}) => {
                           </div>                          
                         <div className="form-group px-3">                          
                             <label>Select Size</label><br />
-                            {props.sizes.map((size)=>
-                             <div className="form-check form-check-inline" key={size}>
-                                <input className="form-check-input" type="radio" name="size" value={size} />
-                                <label className="form-check-label" >{size}</label>                                          
-                            </div>)
+                            {props.sizes.map((availableSizes)=>
+                           
+                             <div className="form-check form-check-inline"  key={availableSizes} >
+                                <input className="form-check-input" type="radio" name="size" value={availableSizes} />
+                                <label className="form-check-label" >{availableSizes}</label>                                          
+                            </div>
+                            
+                            )
                             } 
                             <div className="modal-footer">
                              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -32,16 +32,16 @@ interface AppState {
   </div>
   <ul className="list-group list-group-flush">
   <li className="list-group-item"><b>Style:</b> {this.props.style}</li>
-    <li className="list-group-item"><b>Price:</b> {this.props.price}</li>
+    <li className="list-group-item"><b>Price:</b> {this.props.sku}</li>
     <li className="list-group-item"><b>Description:</b> {this.props.description}</li>
     <li className="list-group-item"><b>Free shipping:</b> {this.props.isFreeShipping}</li>
   </ul>
   <div className="card-footer">
-  <button type="button" className="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#CartModal">Add to cart</button>
+  <button type="button" className="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target={'#id'+this.props.sku}>Add to cart</button>
   </div>    
       </div> 
     
-<CartModel sizes= {this.props.availableSizes} />
+<CartModel sizes= {this.props.availableSizes} id1={"id"+this.props.sku} />
 </>
     );
 }
