@@ -1,5 +1,5 @@
 
-   import {ProductCard} from './ProductCard';
+   import ProductCard from './ProductCard';
    export interface product {
        availableSizes: string[];
        currencyFormat: string;

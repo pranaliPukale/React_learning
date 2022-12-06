@@ -1,6 +1,7 @@
 import user from "../user.png";
 const LeftComponent=()=>{
  return(
+   
     <div className="row">
       <div className="col-3 pt-3"> 
         <h5 className='new ms-5'>*MY PROFILE*</h5> 

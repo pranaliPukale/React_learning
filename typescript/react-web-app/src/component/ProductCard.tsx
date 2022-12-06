@@ -1,49 +1,43 @@
-import React,{ ReactNode } from 'react';
-import {CartModel} from './CartModel'
+import React,{ ReactNode, useState } from 'react';
 import {product} from './ProductList';
-
-
-interface AppState {
-    isModelOpen: boolean
- }
- export class ProductCard extends React.Component<product,AppState>{
-
-  constructor(props:product){
-  super(props);
-  this.state =({
-      isModelOpen :false
-  });
-  }
-   showModel = () => {
-  this.setState({
-      isModelOpen :true
-  });
-
-  
-  }
-  render(): ReactNode {
-      
-      
-    return(
-      <>
-      <div className="card my-2">
-       <div className="card-header">
-       {this.props.title}
-  </div>
-  <ul className="list-group list-group-flush">
-  <li className="list-group-item"><b>Style:</b> {this.props.style}</li>
-    <li className="list-group-item"><b>Price:</b> {this.props.sku}</li>
-    <li className="list-group-item"><b>Description:</b> {this.props.description}</li>
-    <li className="list-group-item"><b>Free shipping:</b> {this.props.isFreeShipping}</li>
-  </ul>
-  <div className="card-footer">
-  <button type="button" className="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target={'#id'+this.props.sku}>Add to cart</button>
-  </div>    
-      </div> 
-    
-<CartModel sizes= {this.props.availableSizes} id1={"id"+this.props.sku} />
-</>
-    );
+import {CartModel} from './CartModel'
+import { Link } from 'react-router-dom';
+import { Card, ListGroup,Col, Button, Modal } from 'react-bootstrap';
+const ProductCard = (product:product)=>{
+  const [showModel, setShowModel] = useState(false);
+  const handleClose = () => setShowModel(false);
+  const handleShow = () => setShowModel(true);
+      return  <Col md={3}>
+           <Link to={`/product-details/${product.sku}`} className='nav-link'>
+              <Card >
+      <Card.Header>{product.title}</Card.Header>
+      <ListGroup variant="flush">
+      <ListGroup.Item
+          as="li"
+          className="d-flex justify-content-between align-items-start"
+        >
+          <div className="ms-2 me-auto">
+            <div className="fw-bold">Price</div>
+            {product.price}
+          </div>
+        </ListGroup.Item>
+        <ListGroup.Item
+          as="li"
+          className="d-flex justify-content-between align-items-start"
+        >
+          <div className="ms-2 me-auto">
+            <div className="fw-bold">SKU</div>
+            {product.sku}
+          </div>
+          <div className="ms-2 me-auto">
+            <div className="fw-bold">Description</div>
+            {product.description}
+          </div>
+        </ListGroup.Item>
+      </ListGroup>
+      <Card.Footer><Button onClick={handleShow}> Open Model</Button></Card.Footer>
+    </Card></Link>
+    <CartModel sizes={product.availableSizes} showModel={showModel} handleClose={handleClose}/>
+  </Col>;
 }
-  };
-
+export default ProductCard;

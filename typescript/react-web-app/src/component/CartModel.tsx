@@ -1,34 +1,31 @@
 
-export const CartModel = (props:{sizes:string[],id1:string}) => {
-   
-   console.log(props.sizes+"======="+props.id1);
+import { Component } from "react";
+import { Modal, Button } from "react-bootstrap";
+type propList ={
+    sizes:string[];
+    showModel: boolean;
+    handleClose: ()=>void;
+}
+export const CartModel=(props:propList)=> {
+console.log(props);
     return (
-        
-        <div className="modal" id={props.id1} >
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">                      
-                        <h5 className="modal-title">Add to Cart</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div className="modal-body"></div>
-                    <form className="row g-3 needs-validation" >
-                     
-                    
-                        <div className="form-group px-3">
-                            <label>Email</label>
-                        <div className="input-group flex-nowrap">
-                             <span className="input-group-text" id="addon-wrapping"></span>
-                             <input type="email" className="form-control" placeholder="Email" aria-label="Username" aria-describedby="addon-wrapping"/>
-                        </div>
-                        <br></br>
-                        <label>Password</label>
-                        <div className="input-group flex-nowrap">
-                             <span className="input-group-text" id="addon-wrapping"></span>
-                             <input type="Password" className="form-control" aria-label="Username" aria-describedby="addon-wrapping"/>
-                        </div>
-                        <br></br>                          
-                            <select className="form-select" >
+        <>
+        <Modal show={props.showModel} onHide={props.handleClose}>
+         <Modal.Header closeButton>
+           <Modal.Title>Add to Cart</Modal.Title>
+         </Modal.Header>
+         <Modal.Body>
+         <form className="row g-3 needs-validation" >
+                     <div className="form-group">
+ <label >Email</label>
+ <input type="email" className="form-control" placeholder="Enter email"/>
+ </div>    
+<div className="form-group">
+<label >Password</label>
+<input type="password" className="form-control" placeholder="Password"/>
+</div>    
+                        <div className="form-group">
+                            <select className="form-select" defaultValue={3} >
                                 <option >Select Quantity</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
@@ -36,26 +33,26 @@ export const CartModel = (props:{sizes:string[],id1:string}) => {
                                 <option value="4">Four</option>
                                 <option value="5">Five</option>
                             </select>
-                          </div>                          
-                        <div className="form-group px-3">                          
+                        </div>
+                        <div className="form-group">
                             <label>Select Size</label><br />
-                            {props.sizes.map((availableSizes)=>
-                           
-                             <div className="form-check form-check-inline"  key={availableSizes} >
-                                <input className="form-check-input" type="radio" name="size" value={availableSizes} />
-                                <label className="form-check-label" >{availableSizes}</label>                                          
-                            </div>
-                            
-                            )
-                            } 
-                            <div className="modal-footer">
-                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                             <button type="button" className="btn btn-primary">Checkout</button>
-                           </div>                         
+                            { props.sizes.map((size:string)=>(<div className="form-check form-check-inline" key={size}>
+                                <input className="form-check-input" type="radio" name="size" value={size} />
+                                <label className="form-check-label" >{size}</label>
+                            </div>)) }
                         </div>
                     </form>
-                </div>               
-            </div>
-            </div>
-        );
+                    </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={props.handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={props.handleClose}>
+          Checkout
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+        </>)
+
 }
