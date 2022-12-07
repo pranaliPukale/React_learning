@@ -7,7 +7,7 @@ const UserProfile=(props:user)=>{
     return (
        <Row>
           <Col md={3}>
-            <img src={props.avatar_url} width={250}/>
+            <img src={props.avatar_url} />
         </Col>
         <Col>
         <ListGroup>

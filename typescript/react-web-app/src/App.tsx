@@ -12,13 +12,15 @@ import UserRoute from './component/UserRoute';
 import user from  './data/user.json';
 import UserList from './component/UserList';
 import WebRoute from './WebRoute';
+import ProfilePhoto from './component/ProfilePhoto';
 const App=()=> {
   
   return (
       <div>
         <div>
          <Header1/>
-         <WebRoute />
+         <WebRoute  />
+        
         {/* <UserList />  */}
          
         {/* <LayoutComponent />
