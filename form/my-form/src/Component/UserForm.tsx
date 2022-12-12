@@ -89,13 +89,22 @@ const UserForm=()=>{
               </Form.Group>
         </Col>
         <Col>  
-             <Form.Label  className="float-start">State*</Form.Label>
+             {/* <Form.Label  className="float-start">State*</Form.Label>
               <Form.Select aria-label="Default select example" required>
                  <option>Choose....</option>
                  <option value="1">Maharashtra</option>
                  <option value="2">Goa</option>
                  <option value="3">Gujarat</option>
-              </Form.Select>
+              </Form.Select> */}
+               <Form.Control as="select" required >
+                <option >choose</option>
+                
+              
+                <option value="1">Maharashtra</option>
+                <option value="2">Goa</option>
+                <option value="3">Kerala</option>
+                
+              </Form.Control>
         </Col>
         <Col>
                 <Form.Group className="mb-3" controlId="validationCustom08">

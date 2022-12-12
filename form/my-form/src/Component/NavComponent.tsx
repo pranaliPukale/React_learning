@@ -1,6 +1,13 @@
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import my from '../my.jpeg';
 const NavComponent=()=>{
+  const navigate = useNavigate();
+
+  const logOut = ()=>{
+    sessionStorage.removeItem('auth');
+    navigate('/login');
+  }
  return(
     <Navbar bg="dark" variant="dark">
         <Container>
@@ -11,6 +18,10 @@ const NavComponent=()=>{
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="/User">User Form</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <div className="float-end">
+      <Button variant="dark" onClick={logOut}>Logout</Button>
+
+      </div>
           </Nav>
         </Container>
     </Navbar>
