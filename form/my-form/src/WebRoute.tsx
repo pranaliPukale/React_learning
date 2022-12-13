@@ -7,8 +7,7 @@ const WebRoute=()=>{
     return(
         <Routes>
             <Route path="/login" element={<LoginForm/>} />
-           <Route  path="/User" element={<UserForm/>}></Route>
-           
+           <Route  path="/User" element={<UserForm/>}></Route>           
         </Routes>
     );
 }
