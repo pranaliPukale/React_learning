@@ -1,24 +1,50 @@
 import { useState } from 'react';
-import { Card, Col, Row } from 'react-bootstrap';
+import { Alert, Card, Col, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Navigate, useNavigate } from 'react-router-dom';
-
+interface loginResponseType {
+  error?: string;
+}
 const LoginForm = ()=> {
     const [validated, setValidated] = useState(false);
     const navigate = useNavigate();
     const [formData, setFormData] =useState<any>({email:'',password:'' });
-      const handleSubmit = (event: any) => {
-const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-           event.preventDefault();
-            event.stopPropagation();
-         } else{
+    const [loginResponse, setLoginResponse] = useState<loginResponseType>() 
+    const callSubmitApi=()=>{
+      fetch('https://reqres.in/api/login',{
+        method:'POST',
+        headers:{
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"   
+                },
+        body:JSON.stringify(formData)
+      }).then(response=>response.json())
+        .then(result=>{
+                      setLoginResponse(result)
+                        if(result?.token)
+                        {
+                          sessionStorage.setItem('auth',result.token);
+                           navigate('/');
+                        }
+                      })
+        .catch(error =>{ 
+                        console.log(error);
+                        error &&  setLoginResponse({'error':'Opps something wrong...'})
+                      });
+    }
+    const handleSubmit = (event: any) =>
+       {
+         const form = event.currentTarget;        
+          event.preventDefault();
+          event.stopPropagation();
+          if (form.checkValidity() )
+           {
             setValidated(true);
-            sessionStorage.setItem('auth',"123");
-            navigate('/');
-         }   
-          }
+            callSubmitApi();
+           } 
+         
+       }
 
       const handleChange = (event:any) => { 
         console.log(event.target.value,event.target.name);
@@ -28,6 +54,9 @@ const form = event.currentTarget;
 
   return (
     <div className="position-absolute top-50 start-50 translate-middle">
+       {loginResponse?.error && <Alert key={'danger'} variant={'danger'}>
+          {loginResponse?.error}
+        </Alert>}
     <Card style={{ width: '25rem' }} className='m-auto center'>
     <Card.Body>
         <Form.Label><b >Login  Form</b></Form.Label>
@@ -45,7 +74,6 @@ const form = event.currentTarget;
           We'll never share your email with anyone else.
         </Form.Text>
       </Form.Group>
-
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label className='float-start'>Password</Form.Label>
         <Form.Control   type="password"
@@ -70,5 +98,4 @@ const form = event.currentTarget;
     </div>
   );
 }
-
 export default LoginForm;
