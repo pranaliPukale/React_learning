@@ -17,6 +17,7 @@ const NavComponent=()=>{
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="/User">User Form</Nav.Link>
+            <Nav.Link href="/User-List">User List</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
             <div className="float-end">
       <Button variant="dark" onClick={logOut}>Logout</Button>
