@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Accordion, Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { AddUser } from "./AddUser";
 export interface userType {
     id: number,
     email: string,
@@ -16,6 +17,9 @@ interface userApiSuccess {
     data: userType[]
 }
 export const UserList=()=>{
+    const [show,setShow]=useState(false)
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const [UserList, setUserList] = useState<userApiSuccess>();
     useEffect(() => {
         fetch('https://reqres.in/api/users')
@@ -25,7 +29,8 @@ export const UserList=()=>{
     return (<>
     <Row className="p-4">
        <Col>
-          <Button variant="primary" > Add more User ++</Button>
+          <Button variant="primary"  onClick={handleShow}> Add more User ++</Button>
+          <AddUser show={show} handleClose={handleClose}/>
        </Col>
     </Row>
         <Row className="p-4">
