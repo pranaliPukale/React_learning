@@ -3,16 +3,17 @@ import { Modal, Button, Form, Alert } from "react-bootstrap"
 type list1={
   show: boolean;
   handleClose: ()=>void;
+  callApi:()=>void;
 }
 interface loginResponseType {
   error?: string;
 }
-interface successResponce{success?:string}
 
 export const AddUser=(props:list1)=>{
     const [formData, setFormData] =useState<any>({name:'',job:'' });
     const [validated, setValidated] = useState(false);
-    const [success1, setSeccess1]=useState<successResponce>();
+    const [success1, setSuccess1]=useState<string>();
+    const [successError,setSuccessError]=useState<string>();
     const [loginResponse, setLoginResponse] = useState<loginResponseType>() 
    const addApi=()=>{
     fetch('https://reqres.in/api/users',{
@@ -24,7 +25,10 @@ export const AddUser=(props:list1)=>{
         body:JSON.stringify(formData)
       }).then(response=>response.json())
         .then(result=>{
-               setSeccess1(result)
+              if(result)
+               setSuccess1("User added successfully")
+               else
+               setSuccessError("Not Added")
           })
         .catch(error =>{ 
           console.log(error);
@@ -40,8 +44,8 @@ export const AddUser=(props:list1)=>{
          if (form.checkValidity() )
           {
            setValidated(true);
-           addApi();
-           <Alert key={'success'} variant={'success'}>success</Alert>
+           props.callApi();
+         
           }        
       }
       const handleChange = (event:any) => { 
@@ -50,29 +54,36 @@ export const AddUser=(props:list1)=>{
         console.log(formData[event.target.name]);
       }
     return<>
+     { successError?<Alert variant="primary">{successError}</Alert>:
+     success1 &&<Alert variant="success">{success1}</Alert>}
      <div
       className="modal show"
-      style={{ display: 'block', position: 'initial' }}
-    >   
+      style={{ display: 'block', position: 'initial' }}  >
+      
       <Modal show={props.show} onHide={props.handleClose}>
+      <Form noValidate validated={false}  onSubmit={handleSubmit} >
         <Modal.Header closeButton>
+       
           <Modal.Title>Add User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form noValidate validated={false}  onSubmit={handleSubmit} >
+         
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                      <Form.Label>Name:</Form.Label>
-                     <Form.Control type="text" placeholder="Enter name" onChange={handleChange}
+                     <Form.Control type="text" placeholder="Enter name"
+                      onChange={handleChange}
                           required defaultValue={formData.name} />
                      <Form.Label>Job:</Form.Label>
-                     <Form.Control type="text" defaultValue={formData.job} onChange={handleChange} required />
+                     <Form.Control type="text" defaultValue={formData.job}
+                      onChange={handleChange} required />
                  </Form.Group>
-          </Form>
+        
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.handleClose} >Close</Button>
-          <Button variant="primary" onClick={props.handleClose} >Save changes</Button>
+          <Button variant="primary" type='submit'>Add</Button>
         </Modal.Footer>
+        </Form>
       </Modal>
     </div>
     </>

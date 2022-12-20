@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Accordion, Button, Col, Row } from "react-bootstrap";
+import { Accordion, Alert, Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AddUser } from "./AddUser";
 export interface userType {
@@ -26,11 +26,42 @@ export const UserList=()=>{
             .then(response => response.json())
             .then(result => setUserList(result))
     }, []);
+    const [formData, setFormData] =useState<any>({name:'',job:'' });
+    const [validated, setValidated] = useState(false);
+    const [success1, setSuccess1]=useState<string>();
+    const [successError,setSuccessError]=useState<string>();
+   const [showError,setShowError]=useState<string>();
+   const addApi=()=>{
+    fetch('https://reqres.in/api/users',{
+        method:'POST',
+        headers:{
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"   
+                },
+        body:JSON.stringify(formData)
+      }).then(response=>response.json())
+        .then(result=>{
+              if(result)
+               setSuccess1("User added successfully")
+               else
+               setSuccessError("Not Added")
+          })
+        .catch(error =>{ 
+          console.log(error);
+          error &&  setShowError('Opps something wrong...')
+          
+        });
+      }
+      
     return (<>
     <Row className="p-4">
        <Col>
           <Button variant="primary"  onClick={handleShow}> Add more User ++</Button>
-          <AddUser show={show} handleClose={handleClose}/>
+       </Col>
+       <Col>
+          <AddUser callApi={addApi} show={show} handleClose={handleClose}/> 
+          { successError?<Alert variant="primary">{successError}</Alert>:
+     success1 &&<Alert variant="success">{success1}</Alert>}        
        </Col>
     </Row>
         <Row className="p-4">
