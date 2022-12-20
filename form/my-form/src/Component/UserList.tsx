@@ -1,3 +1,4 @@
+import { error } from "console";
 import { useEffect, useState } from "react";
 import { Accordion, Alert, Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -31,6 +32,7 @@ export const UserList=()=>{
     const [success1, setSuccess1]=useState<string>();
     const [successError,setSuccessError]=useState<string>();
    const [showError,setShowError]=useState<string>();
+   const [isUpdate, setIsUpdate]= useState(false);
    const addApi=()=>{
     fetch('https://reqres.in/api/users',{
         method:'POST',
@@ -52,7 +54,23 @@ export const UserList=()=>{
           
         });
       }
-      
+      const updateApi=(user:userType)=>{
+        fetch(`https://reqres.in/api/users/${user.id}`,
+        {method:'PUT',
+         body:JSON.stringify({
+               name : formData.name,
+               job :formData.job
+                }),
+        headers: {
+                  'Content-type': 'application/json; charset=UTF-8',
+               },
+       } ).then(responce=>responce.json())
+          .then(result=>{
+            setIsUpdate(true)
+            console.log(result)
+            setFormData({name:'',job:''})
+          }).catch(error=>console.log(error) )
+      }
     return (<>
     <Row className="p-4">
        <Col>
@@ -74,7 +92,7 @@ export const UserList=()=>{
                                <Col md="2"><img src={user.avatar} /></Col>
                                <Col >Email : <Link to={`/user-detail/${user.id}`} >{user.email}</Link> </Col>
                                <Col className="align-self-end col-auto">
-                                    <Button>Update</Button>{' '}
+                                    <Button  onClick={()=>updateApi(user)}>Update</Button>{' '}
                                     <Button>Delete</Button>{' '}
                                     <Button><Link to={`/user-detail/${user.id}`} className="nav-link">Go to User Profile</Link></Button>
                                 </Col >  
