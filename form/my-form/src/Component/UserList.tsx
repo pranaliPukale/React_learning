@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Accordion, Alert, Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AddUser } from "./AddUser";
+import { UpdateUser } from "./UpdateUser";
 export interface userType {
     id: number,
     email: string,
@@ -92,7 +93,8 @@ export const UserList=()=>{
                                <Col md="2"><img src={user.avatar} /></Col>
                                <Col >Email : <Link to={`/user-detail/${user.id}`} >{user.email}</Link> </Col>
                                <Col className="align-self-end col-auto">
-                                    <Button  onClick={()=>updateApi(user)}>Update</Button>{' '}
+                                    <Button  >Update</Button>{' '}
+                                      <UpdateUser call1={updateApi(user)} show={show} handleClose={handleClose} />
                                     <Button>Delete</Button>{' '}
                                     <Button><Link to={`/user-detail/${user.id}`} className="nav-link">Go to User Profile</Link></Button>
                                 </Col >  
