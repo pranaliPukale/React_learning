@@ -34,6 +34,10 @@ export const UserList=()=>{
     const [successError,setSuccessError]=useState<string>();
    const [showError,setShowError]=useState<string>();
    const [isUpdate, setIsUpdate]= useState(false);
+
+   const [deletedUser, setDeletedUser]=useState<string>();
+   const [deletedUserError, setDeletedUserError]=useState<string>();
+const [Validate,setValidate]=useState<number>();
    const addApi=()=>{
     fetch('https://reqres.in/api/users',{
         method:'POST',
@@ -72,18 +76,45 @@ export const UserList=()=>{
             setFormData({name:'',job:''})
           }).catch(error=>console.log(error) )
       }
+       const deleteUser = (userId: number) => {
+      
+console.log("delete");
+
+        fetch(`https://reqres.in/api/users/${userId}`, 
+        {method:'DELETE'})
+            .then(response => response)
+            .then(result => {
+                setValidate(result.status)
+                console.log(result.status);
+                
+                if(result?.status ===204)
+                setDeletedUser(` User (${userId}) deleted Successfully...`);
+                else setDeletedUserError(` User (${userId}) not deleted yet please try again ...`);
+
+            }).catch(error=>{
+                console.log(error);
+                setDeletedUserError(`User (${userId}) not deleted yet please try again ...`)})
+
+    }
     return (<>
     <Row className="p-4">
-       <Col>
+       <Col className="col-4">
           <Button variant="primary"  onClick={handleShow}> Add more User ++</Button>
        </Col>
-       <Col>
+       <Col className="m-2 col-6">
           <AddUser callApi={addApi} show={show} handleClose={handleClose}/> 
-          { successError?<Alert variant="primary">{successError}</Alert>:
-     success1 &&<Alert variant="success">{success1}</Alert>}        
+          {/* { successError?<Alert variant="primary">{successError}</Alert>:
+     success1 &&<Alert variant="success">{success1}</Alert>}         */}
+       { Validate===204?
+       (deletedUserError ? <Alert variant="danger">{deletedUserError}</Alert>:
+       deletedUser && <Alert variant="success">{deletedUser}</Alert>)
+       :
+       (successError?<Alert variant="primary">{successError}</Alert>:
+     success1 &&<Alert variant="success">{success1}</Alert>)
+       }   
        </Col>
     </Row>
-        <Row className="p-4">
+        <Row className="p-4 ">
             <Col>  <Accordion defaultActiveKey="1">
                  {UserList?.data.map((user) => (
                  <Accordion.Item eventKey={`${user.id}`} key={user.id}>
@@ -94,8 +125,8 @@ export const UserList=()=>{
                                <Col >Email : <Link to={`/user-detail/${user.id}`} >{user.email}</Link> </Col>
                                <Col className="align-self-end col-auto">
                                     <Button  >Update</Button>{' '}
-                                      <UpdateUser call1={updateApi(user)} show={show} handleClose={handleClose} />
-                                    <Button>Delete</Button>{' '}
+                                       <UpdateUser call1={updateApi(user)} show={show} handleClose={handleClose} />  
+                                    <Button onClick={()=>deleteUser(user.id)}>Delete</Button>{' '}
                                     <Button><Link to={`/user-detail/${user.id}`} className="nav-link">Go to User Profile</Link></Button>
                                 </Col >  
                           </Row>

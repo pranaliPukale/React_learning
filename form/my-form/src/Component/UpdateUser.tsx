@@ -1,10 +1,7 @@
+import { type } from "@testing-library/user-event/dist/type";
 import { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap"
-type list1={
-    show: boolean;
-    handleClose: ()=>void;
-    call1:(user:userType)=>void;
-  }
+
   interface userType {
     id: number,
     email: string,
@@ -12,7 +9,13 @@ type list1={
     last_name: string,
     avatar: string
 };
-export const UpdateUser=(props:list1)=>{
+type list2={
+  call1:any;
+  show: boolean;
+  handleClose: ()=>void;
+  
+}
+export const UpdateUser=(props:list2)=>{
     const [formData, setFormData] =useState<any>({name:'',job:'' });
     const [validated,setValidated]=useState(false);
     const handleSubmit = (event: any) =>
