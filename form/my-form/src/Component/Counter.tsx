@@ -3,7 +3,6 @@ import { counterType } from "../reducer/counterReducer";
 import {setIncrementCounter,setDecrementCounter,setCounterTitle,resetCounter} from '../action/counterAction';
 import { Button } from "react-bootstrap";
 import { RootState } from "..";
-
 export const Counter = ()=>{
     const dispatch = useDispatch();
     const counterState = useSelector<RootState,counterType>((state)=>state.counter);
