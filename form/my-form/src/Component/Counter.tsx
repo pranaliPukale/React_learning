@@ -9,7 +9,7 @@ export const Counter = ()=>{
     return <> 
           <h2>{counterState.counterTitle} ({counterState.counter})</h2>
           <Button className="m-2" onClick={()=>dispatch(setIncrementCounter())}>+1</Button>
-          <Button className="m-2" onClick={setDecrementCounter}>-1</Button>
-          <Button className="m-2" onClick={resetCounter}>Reset Counter</Button>
+          <Button className="m-2" onClick={()=>dispatch(setDecrementCounter())}>-1</Button>
+          <Button className="m-2" onClick={()=>dispatch(resetCounter())}>Reset Counter</Button>
     </>;
 }
