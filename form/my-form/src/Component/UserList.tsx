@@ -4,6 +4,10 @@ import { Accordion, Alert, Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AddUser } from "./AddUser";
 import { UpdateUser } from "./UpdateUser";
+import { getUserList } from "../action/userAsyncAction";
+import { fetchUserApi } from "../reducer/userReducer";
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch , RootState } from "..";
 export interface userType {
     id: number,
     email: string,
@@ -23,11 +27,19 @@ export const UserList=()=>{
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [UserList, setUserList] = useState<userApiSuccess>();
-    useEffect(() => {
-        fetch('https://reqres.in/api/users')
-            .then(response => response.json())
-            .then(result => setUserList(result))
-    }, []);
+    // useEffect(() => {
+    //     fetch('https://reqres.in/api/users')
+    //         .then(response => response.json())
+    //         .then(result => setUserList(result))
+    // }, []);
+
+   const {data:user,loading:fetchLoader,error}=useSelector<RootState,fetchUserApi>(state=>state.user)
+   const dispatch  = useDispatch<AppDispatch>();
+   useEffect(()=>
+   {
+    dispatch(getUserList());
+   })
+
     const [formData, setFormData] =useState<any>({name:'',job:'' });
     const [validated, setValidated] = useState(false);
     const [success1, setSuccess1]=useState<string>();
@@ -124,7 +136,7 @@ console.log("delete");
                                <Col md="2"><img src={user.avatar} /></Col>
                                <Col >Email : <Link to={`/user-detail/${user.id}`} >{user.email}</Link> </Col>
                                <Col className="align-self-end col-auto">
-                                    <Button  >Update</Button>{' '}
+                                    <Button>Update</Button>{' '}
                                        <UpdateUser call1={updateApi(user)} show={show} handleClose={handleClose} />  
                                     <Button onClick={()=>deleteUser(user.id)}>Delete</Button>{' '}
                                     <Button><Link to={`/user-detail/${user.id}`} className="nav-link">Go to User Profile</Link></Button>
