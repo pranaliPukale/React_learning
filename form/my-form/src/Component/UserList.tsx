@@ -7,7 +7,7 @@ import { UpdateUser } from "./UpdateUser";
 import { getUserList } from "../action/userAsyncAction";
 import { fetchUserApi } from "../reducer/userReducer";
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch , RootState } from "..";
+import {  RootState } from "..";
 export interface userType {
     id: number,
     email: string,
@@ -15,30 +15,31 @@ export interface userType {
     last_name: string,
     avatar: string
 };
-interface userApiSuccess {
-    page: number,
-    per_page: number,
-    total: number,
-    total_pages: number,
-    data: userType[]
-}
+// interface userApiSuccess {
+//     page: number,
+//     per_page: number,
+//     total: number,
+//     total_pages: number,
+//     data: userType[]
+// }
 export const UserList=()=>{
     const [show,setShow]=useState(false)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [UserList, setUserList] = useState<userApiSuccess>();
+   // const [UserList, setUserList] = useState<userApiSuccess>();
     // useEffect(() => {
     //     fetch('https://reqres.in/api/users')
     //         .then(response => response.json())
     //         .then(result => setUserList(result))
     // }, []);
 
-   const {data:user,loading:fetchLoader,error}=useSelector<RootState,fetchUserApi>(state=>state.user)
-   const dispatch  = useDispatch<AppDispatch>();
+   const {user_res:UserList,loading:userLoader,error}=useSelector<RootState,fetchUserApi>(state=>state.user)
+   const dispatch  = useDispatch();
+   console.log(getUserList);
    useEffect(()=>
    {
-    dispatch(getUserList());
-   })
+    dispatch(getUserList() as  any);
+   },[])
 
     const [formData, setFormData] =useState<any>({name:'',job:'' });
     const [validated, setValidated] = useState(false);

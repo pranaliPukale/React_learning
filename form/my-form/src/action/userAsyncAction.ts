@@ -5,7 +5,7 @@ import { fetchUserApi } from "../reducer/userReducer";
 // GET for UserList
 export const getUserList=()=>
 {
-    return async(dispatch:(arg0: { type: string; payload?: any; })=> void)=>
+     async(dispatch:(arg0: { type: string; payload?: any; })=> void)=>
     {
         dispatch(getUserListStarted());
         try
