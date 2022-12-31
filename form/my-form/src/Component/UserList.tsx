@@ -156,7 +156,7 @@ console.log("delete");
                                <Col >Email : <Link to={`/user-detail/${user.id}`} >{user.email}</Link> </Col>
                                <Col className="align-self-end col-auto">
                                     <Button>Update</Button>{' '}
-                                       <AddUser callApi={()=>addUpdateUser(user)} show={show} handleClose={handleClose} />  
+                                       <AddUser callApi={addUpdateUser(user)} show={show} handleClose={handleClose} />  
                                     <Button onClick={()=>deleteUser(user.id)}>Delete</Button>{' '}
                                     <Button><Link to={`/user-detail/${user.id}`} className="nav-link">Go to User Profile</Link></Button>
                                 </Col >  
