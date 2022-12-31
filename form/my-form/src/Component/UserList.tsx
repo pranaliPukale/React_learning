@@ -4,10 +4,10 @@ import { Accordion, Alert, Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AddUser } from "./AddUser";
 import { UpdateUser } from "./UpdateUser";
-import { getUserList } from "../action/userAsyncAction";
-import { fetchUserApi } from "../reducer/userReducer";
+import { getUserList ,addUpdateUserList} from "../action/userAsyncAction";
+import { fetchUserApi,AddUpdateApi, user } from "../reducer/userReducer";
 import { useDispatch, useSelector } from 'react-redux';
-import {  RootState } from "..";
+import {  AppDispatch, RootState } from "..";
 export interface userType {
     id: number,
     email: string,
@@ -33,13 +33,30 @@ export const UserList=()=>{
     //         .then(result => setUserList(result))
     // }, []);
 
-   const {user_res:UserList,loading:userLoader,error}=useSelector<RootState,fetchUserApi>(state=>state.user)
-   const dispatch  = useDispatch();
+   const {user_res:UserList,loading:userLoader,error:fetchError}=useSelector<RootState,fetchUserApi>(state=>state.user)
+   const dispatch  = useDispatch<AppDispatch>();
    console.log(getUserList);
    useEffect(()=>
    {
     dispatch(getUserList() as  any);
    },[])
+   const {user_res:userSuccess,loading:addUpdateLoader,error:auError}=useSelector<RootState,AddUpdateApi>(state=>state.user)
+   const handleSubmit=(e:{preventdefault:()=>void;})=>
+   {
+    e.preventdefault();
+    if(isUpdate)
+    dispatch( addUpdateUserList(formData, 'PUT'));
+     else dispatch( addUpdateUserList(formData, 'POST'));
+    setIsUpdate(false);
+    setFormData({name:'',job:''});
+   };
+   const addUpdateUser =(user:userType)=>
+   {
+    setIsUpdate(true);
+    setFormData(user);
+    handleShow();
+   };
+
 
     const [formData, setFormData] =useState<any>({name:'',job:'' });
     const [validated, setValidated] = useState(false);
@@ -51,44 +68,45 @@ export const UserList=()=>{
    const [deletedUser, setDeletedUser]=useState<string>();
    const [deletedUserError, setDeletedUserError]=useState<string>();
 const [Validate,setValidate]=useState<number>();
-   const addApi=()=>{
-    fetch('https://reqres.in/api/users',{
-        method:'POST',
-        headers:{
-                  "Content-Type": "application/json",
-                  "Accept": "application/json"   
-                },
-        body:JSON.stringify(formData)
-      }).then(response=>response.json())
-        .then(result=>{
-              if(result)
-               setSuccess1("User added successfully")
-               else
-               setSuccessError("Not Added")
-          })
-        .catch(error =>{ 
-          console.log(error);
-          error &&  setShowError('Opps something wrong...')
+  //  const addApi=()=>{
+  //   fetch('https://reqres.in/api/users',{
+  //       method:'POST',
+  //       headers:{
+  //                 "Content-Type": "application/json",
+  //                 "Accept": "application/json"   
+  //               },
+  //       body:JSON.stringify(formData)
+  //     }).then(response=>response.json())
+  //       .then(result=>{
+  //             if(result)
+  //              setSuccess1("User added successfully")
+  //              else
+  //              setSuccessError("Not Added")
+  //         })
+  //       .catch(error =>{ 
+  //         console.log(error);
+  //         error &&  setShowError('Opps something wrong...')
           
-        });
-      }
-      const updateApi=(user:userType)=>{
-        fetch(`https://reqres.in/api/users/${user.id}`,
-        {method:'PUT',
-         body:JSON.stringify({
-               name : formData.name,
-               job :formData.job
-                }),
-        headers: {
-                  'Content-type': 'application/json; charset=UTF-8',
-               },
-       } ).then(responce=>responce.json())
-          .then(result=>{
-            setIsUpdate(true)
-            console.log(result)
-            setFormData({name:'',job:''})
-          }).catch(error=>console.log(error) )
-      }
+  //       });
+  //     }
+  //     const updateApi=(user:userType)=>{
+  //       fetch(`https://reqres.in/api/users/${user.id}`,
+  //       {method:'PUT',
+  //        body:JSON.stringify({
+  //              name : formData.name,
+  //              job :formData.job
+  //               }),
+  //       headers: {
+  //                 'Content-type': 'application/json; charset=UTF-8',
+  //              },
+  //      } ).then(responce=>responce.json())
+  //         .then(result=>{
+  //           setIsUpdate(true)
+  //           console.log(result)
+  //           setFormData({name:'',job:''})
+  //         }).catch(error=>console.log(error) )
+  //     }
+  
        const deleteUser = (userId: number) => {
       
 console.log("delete");
@@ -115,7 +133,7 @@ console.log("delete");
           <Button variant="primary"  onClick={handleShow}> Add more User ++</Button>
        </Col>
        <Col className="m-2 col-6">
-          <AddUser callApi={addApi} show={show} handleClose={handleClose}/> 
+        {/* <AddUser callApi={addUpdateUser(user)} show={show} handleClose={handleClose}/>  */}
           {/* { successError?<Alert variant="primary">{successError}</Alert>:
      success1 &&<Alert variant="success">{success1}</Alert>}         */}
        { Validate===204?
@@ -138,7 +156,7 @@ console.log("delete");
                                <Col >Email : <Link to={`/user-detail/${user.id}`} >{user.email}</Link> </Col>
                                <Col className="align-self-end col-auto">
                                     <Button>Update</Button>{' '}
-                                       <UpdateUser call1={updateApi(user)} show={show} handleClose={handleClose} />  
+                                       <AddUser callApi={()=>addUpdateUser(user)} show={show} handleClose={handleClose} />  
                                     <Button onClick={()=>deleteUser(user.id)}>Delete</Button>{' '}
                                     <Button><Link to={`/user-detail/${user.id}`} className="nav-link">Go to User Profile</Link></Button>
                                 </Col >  
