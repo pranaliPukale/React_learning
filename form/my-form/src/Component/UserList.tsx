@@ -41,6 +41,13 @@ export const UserList=()=>{
     dispatch(getUserList() as  any);
    },[])
    const {user_res:userSuccess,loading:addUpdateLoader,error:auError}=useSelector<RootState,AddUpdateApi>(state=>state.user)
+   
+   const addUpdateUser =(user:userType)=>
+   {
+    setIsUpdate(true);
+    setFormData(user);
+    handleShow();
+   };
    const handleSubmit=(e:{preventdefault:()=>void;})=>
    {
     e.preventdefault();
@@ -49,12 +56,6 @@ export const UserList=()=>{
      else dispatch( addUpdateUserList(formData, 'POST'));
     setIsUpdate(false);
     setFormData({name:'',job:''});
-   };
-   const addUpdateUser =(user:userType)=>
-   {
-    setIsUpdate(true);
-    setFormData(user);
-    handleShow();
    };
 
 

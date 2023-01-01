@@ -8,7 +8,7 @@ import { json } from "stream/consumers";
 // GET for UserList
 export const getUserList=()=>
 {
-    return async(dispatch:(arg0: { type: string; payload?: any; })=> void)=>
+    return (async(dispatch:(arg0: { type: string; payload?: any; })=> void)=>
     {
         dispatch(getUserListStarted());
         try
@@ -22,12 +22,13 @@ export const getUserList=()=>
           dispatch(getUserListFailure(err));
         }
     }
+    );
 }
 
 //Add or Update UserList
 export const addUpdateUserList=(formObj:{name:string,job:string,id?:number},method:string)=>
 {
-    return async(dispatch:(arg0: { type: string; payload?: any; })=> void)=>
+    return (async(dispatch:(arg0: { type: string; payload?: any; })=> void)=>
     {
       dispatch(addUpdateUserListStarted());
       const apiUrl=(method=="PUT" ? `${Api.user}/${formObj.id}` :Api.user);
@@ -46,5 +47,5 @@ export const addUpdateUserList=(formObj:{name:string,job:string,id?:number},meth
        else
          dispatch(addUpdateUserListFailure('something going wrong'))
       
-    }
+    });
 }

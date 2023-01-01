@@ -3,39 +3,14 @@ import { Modal, Button, Form, Alert } from "react-bootstrap"
 type list1={
   show: boolean;
   handleClose: ()=>void;
-  callApi:()=>void;
+  callApi:any;
 }
-interface loginResponseType {
-  error?: string;
-}
-
 export const AddUser=(props:list1)=>{
     const [formData, setFormData] =useState<any>({name:'',job:'' });
     const [validated, setValidated] = useState(false);
     const [success1, setSuccess1]=useState<string>();
     const [successError,setSuccessError]=useState<string>();
-    const [loginResponse, setLoginResponse] = useState<loginResponseType>() 
-   const addApi=()=>{
-    fetch('https://reqres.in/api/users',{
-        method:'POST',
-        headers:{
-                  "Content-Type": "application/json",
-                  "Accept": "application/json"   
-                },
-        body:JSON.stringify(formData)
-      }).then(response=>response.json())
-        .then(result=>{
-              if(result)
-               setSuccess1("User added successfully")
-               else
-               setSuccessError("Not Added")
-          })
-        .catch(error =>{ 
-          console.log(error);
-          error &&  setLoginResponse({'error':'Opps something wrong...'})
-          
-        });
-      }
+   
       const handleSubmit = (event: any) =>
       {
         const form = event.currentTarget;        
@@ -48,6 +23,16 @@ export const AddUser=(props:list1)=>{
          
           }        
       }
+  //     const handleSubmit=(e:{preventdefault:()=>void;})=>
+  //  {
+  //   e.preventdefault();
+  //   if(isUpdate)
+  //   dispatch( addUpdateUserList(formData, 'PUT'));
+  //    else dispatch( addUpdateUserList(formData, 'POST'));
+  //   setIsUpdate(false);
+  //   setFormData({name:'',job:''});
+  //  };
+    
       const handleChange = (event:any) => { 
         console.log(event.target.value,event.target.name);
         setFormData({...formData,[event.target.name]:event.target.value});
