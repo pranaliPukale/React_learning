@@ -41,11 +41,10 @@ export const addUpdateUserList=(formObj:{name:string,job:string,id?:number},meth
                            headers: {'Content-type': 'application/json; charset=UTF-8',
                                   },
                           });
-      var data=await response.json();
+    var data=await response.json();
        if (response.ok)
          dispatch(addUpdateUserListSuccess(data));
        else
-         dispatch(addUpdateUserListFailure('something going wrong'))
-      
+         dispatch(addUpdateUserListFailure('something going wrong'))      
     });
 }
