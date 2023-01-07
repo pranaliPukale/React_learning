@@ -38,8 +38,8 @@ export const AddUser=(props:list1)=>{
         setFormData({...formData,[event.target.name]:event.target.value});
         console.log(formData[event.target.name]);
       }
-    return<>
-     { successError?<Alert variant="primary">{successError}</Alert>:
+    return<></>
+     {/* { successError?<Alert variant="primary">{successError}</Alert>:
      success1 &&<Alert variant="success">{success1}</Alert>}
      <div
       className="modal show"
@@ -71,5 +71,5 @@ export const AddUser=(props:list1)=>{
         </Form>
       </Modal>
     </div>
-    </>
+    </> */}
 }

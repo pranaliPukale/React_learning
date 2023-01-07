@@ -4,16 +4,16 @@ import { Accordion, Alert, Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AddUser } from "./AddUser";
 import { UpdateUser } from "./UpdateUser";
-import { getUserList ,addUpdateUserList} from "../action/userAsyncAction";
-import { fetchUserApi,AddUpdateApi, user } from "../reducer/userReducer";
+import { getUserList, addUpdateUserList } from "../action/userAsyncAction";
+import { fetchUserApi, AddUpdateApi, user } from "../reducer/userReducer";
 import { useDispatch, useSelector } from 'react-redux';
-import {  AppDispatch, RootState } from "..";
+import { AppDispatch, RootState } from "..";
 export interface userType {
-    id: number,
-    email: string,
-    first_name: string,
-    last_name: string,
-    avatar: string
+  id: number,
+  email: string,
+  first_name: string,
+  last_name: string,
+  avatar: string
 };
 // interface userApiSuccess {
 //     page: number,
@@ -22,53 +22,45 @@ export interface userType {
 //     total_pages: number,
 //     data: userType[]
 // }
-export const UserList=()=>{
-    const [show,setShow]=useState(false)
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-   // const [UserList, setUserList] = useState<userApiSuccess>();
-    // useEffect(() => {
-    //     fetch('https://reqres.in/api/users')
-    //         .then(response => response.json())
-    //         .then(result => setUserList(result))
-    // }, []);
+export const UserList = () => {
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+ 
+  const { user_res: UserList, loading: userLoader, error: fetchError } = useSelector<RootState, fetchUserApi>(state => state.user)
 
-   const {user_res:UserList,loading:userLoader,error:fetchError}=useSelector<RootState,fetchUserApi>(state=>state.user)
-   const dispatch  = useDispatch<AppDispatch>();
-   console.log(getUserList);
-   useEffect(()=>
-   {
-    dispatch(getUserList() as  any);
-   },[])
-   const {user_res:userSuccess,loading:addUpdateLoader,error:auError}=useSelector<RootState,AddUpdateApi>(state=>state.user)
-   
-   const addUpdateUser =(user:userType)=>
-   {
+  const dispatch = useDispatch<AppDispatch>();
+  console.log(getUserList);
+  useEffect(() => {
+    dispatch(getUserList() as any);
+  }, [])
+  const { user_res: userSuccess, loading: addUpdateLoader, error: auError } = useSelector<RootState, AddUpdateApi>(state => state.user)
+
+  const addUpdateUser = (user: userType) => {
     setIsUpdate(true);
     setFormData(user);
     handleShow();
-   };
-   const handleSubmit=(e:{preventdefault:()=>void;})=>
-   {
+  };
+  const handleSubmit = (e: { preventdefault: () => void; }) => {
     e.preventdefault();
-    if(isUpdate)
-    dispatch( addUpdateUserList(formData, 'PUT'));
-     else dispatch( addUpdateUserList(formData, 'POST'));
+    if (isUpdate)
+      dispatch(addUpdateUserList(formData, 'PUT'));
+    else dispatch(addUpdateUserList(formData, 'POST'));
     setIsUpdate(false);
-    setFormData({name:'',job:''});
-   };
+    setFormData({ name: '', job: '' });
+  };
 
 
-    const [formData, setFormData] =useState<any>({name:'',job:'' });
-    const [validated, setValidated] = useState(false);
-    const [success1, setSuccess1]=useState<string>();
-    const [successError,setSuccessError]=useState<string>();
-   const [showError,setShowError]=useState<string>();
-   const [isUpdate, setIsUpdate]= useState(false);
+  const [formData, setFormData] = useState<any>({ name: '', job: '' });
+  const [validated, setValidated] = useState(false);
+  const [success1, setSuccess1] = useState<string>();
+  const [successError, setSuccessError] = useState<string>();
+  const [showError, setShowError] = useState<string>();
+  const [isUpdate, setIsUpdate] = useState(false);
 
-   const [deletedUser, setDeletedUser]=useState<string>();
-   const [deletedUserError, setDeletedUserError]=useState<string>();
-const [Validate,setValidate]=useState<number>();
+  const [deletedUser, setDeletedUser] = useState<string>();
+  const [deletedUserError, setDeletedUserError] = useState<string>();
+  const [Validate, setValidate] = useState<number>();
   //  const addApi=()=>{
   //   fetch('https://reqres.in/api/users',{
   //       method:'POST',
@@ -87,7 +79,7 @@ const [Validate,setValidate]=useState<number>();
   //       .catch(error =>{ 
   //         console.log(error);
   //         error &&  setShowError('Opps something wrong...')
-          
+
   //       });
   //     }
   //     const updateApi=(user:userType)=>{
@@ -107,66 +99,67 @@ const [Validate,setValidate]=useState<number>();
   //           setFormData({name:'',job:''})
   //         }).catch(error=>console.log(error) )
   //     }
-  
-       const deleteUser = (userId: number) => {
-      
-console.log("delete");
 
-        fetch(`https://reqres.in/api/users/${userId}`, 
-        {method:'DELETE'})
-            .then(response => response)
-            .then(result => {
-                setValidate(result.status)
-                console.log(result.status);
-                
-                if(result?.status ===204)
-                setDeletedUser(` User (${userId}) deleted Successfully...`);
-                else setDeletedUserError(` User (${userId}) not deleted yet please try again ...`);
+  const deleteUser = (userId: number) => {
 
-            }).catch(error=>{
-                console.log(error);
-                setDeletedUserError(`User (${userId}) not deleted yet please try again ...`)})
+    console.log("delete");
 
-    }
-    return (<>
+    fetch(`https://reqres.in/api/users/${userId}`,
+      { method: 'DELETE' })
+      .then(response => response)
+      .then(result => {
+        setValidate(result.status)
+        console.log(result.status);
+
+        if (result?.status === 204)
+          setDeletedUser(` User (${userId}) deleted Successfully...`);
+        else setDeletedUserError(` User (${userId}) not deleted yet please try again ...`);
+
+      }).catch(error => {
+        console.log(error);
+        setDeletedUserError(`User (${userId}) not deleted yet please try again ...`)
+      })
+
+  }
+  return (<>
     <Row className="p-4">
-       <Col className="col-4">
-          <Button variant="primary"  onClick={handleShow}> Add more User ++</Button>
-       </Col>
-       <Col className="m-2 col-6">
+      <Col className="col-4">
+        <Button variant="primary" onClick={handleShow}> Add more User ++</Button>
+      </Col>
+      <Col className="m-2 col-6">
         {/* <AddUser callApi={addUpdateUser(user)} show={show} handleClose={handleClose}/>  */}
-          {/* { successError?<Alert variant="primary">{successError}</Alert>:
+        {/* { successError?<Alert variant="primary">{successError}</Alert>:
      success1 &&<Alert variant="success">{success1}</Alert>}         */}
-       { Validate===204?
-       (deletedUserError ? <Alert variant="danger">{deletedUserError}</Alert>:
-       deletedUser && <Alert variant="success">{deletedUser}</Alert>)
-       :
-       (successError?<Alert variant="primary">{successError}</Alert>:
-     success1 &&<Alert variant="success">{success1}</Alert>)
-       }   
-       </Col>
+        {Validate === 204 ?
+          (deletedUserError ? <Alert variant="danger">{deletedUserError}</Alert> :
+            deletedUser && <Alert variant="success">{deletedUser}</Alert>)
+          :
+          (successError ? <Alert variant="primary">{successError}</Alert> :
+            success1 && <Alert variant="success">{success1}</Alert>)
+        }
+      </Col>
     </Row>
-        <Row className="p-4 ">
-            <Col>  <Accordion defaultActiveKey="1">
-                 {UserList?.data.map((user) => (
-                 <Accordion.Item eventKey={`${user.id}`} key={user.id}>
-                      <Accordion.Header>{user.first_name}  {user.last_name}</Accordion.Header>
-                      <Accordion.Body>
-                          <Row>
-                               <Col md="2"><img src={user.avatar} /></Col>
-                               <Col >Email : <Link to={`/user-detail/${user.id}`} >{user.email}</Link> </Col>
-                               <Col className="align-self-end col-auto">
-                                    <Button>Update</Button>{' '}
-                                       <AddUser callApi={addUpdateUser(user)} show={show} handleClose={handleClose} />  
-                                    <Button onClick={()=>deleteUser(user.id)}>Delete</Button>{' '}
-                                    <Button><Link to={`/user-detail/${user.id}`} className="nav-link">Go to User Profile</Link></Button>
-                                </Col >  
-                          </Row>
-                     </Accordion.Body>
-                     </Accordion.Item>
-                     ))}
-               </Accordion >
-           </Col>          
-  </Row>
+    <Row className="p-4 ">
+      <Col>  <Accordion defaultActiveKey="1">
+        {UserList?.data.map((user) => (
+          <Accordion.Item eventKey={`${user.id}`} key={user.id}>
+            <Accordion.Header>{user.first_name}  {user.last_name}</Accordion.Header>
+            <Accordion.Body>
+              <Row>
+                <Col md="2"><img src={user.avatar} /></Col>
+                <Col >Email : <Link to={`/user-detail/${user.id}`} >{user.email}</Link> </Col>
+                <Col className="align-self-end col-auto">
+                  <Button>Update</Button>{' '}
+               <AddUser callApi={addUpdateUser(user)} show={show} handleClose={handleClose} /> 
+                  <Button onClick={() => deleteUser(user.id)}>Delete</Button>{' '}
+                  <Button><Link to={`/user-detail/${user.id}`} className="nav-link">Go to User Profile</Link></Button>
+                </Col >
+              </Row>
+            </Accordion.Body>
+          </Accordion.Item>
+        ))}
+      </Accordion >
+      </Col>
+    </Row>
   </>);
 }
