@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import my from '../my.jpeg';
 const NavComponent=()=>{
   const navigate = useNavigate();
-
   const logOut = ()=>{
     sessionStorage.removeItem('auth');
     navigate('/login');
