@@ -28,7 +28,7 @@ const defaultProps = {
     "reference",
     "products.length",
     "amount",
-    "customer.firstname",
+    "customer.firstName",
     "orderDate",
     "shippedDate",
     "actions",
@@ -185,7 +185,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     const action = getAction(NEW_ORDER) as ApiAction;
     this.props.newOrder(action);
     // @ts-ignore
-    this.props.history.push("/neworder");
+    this.props.history.push("/newOrder");
   }
 
   handleSearchFilter(event) {

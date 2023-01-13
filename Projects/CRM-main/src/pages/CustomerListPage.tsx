@@ -31,8 +31,8 @@ const defaultProps = {
   model: "customer",
   dataKeys: [
     "avatar",
-    "firstname",
-    "lastname",
+    "firstName",
+    "lastName",
     "email",
     "mobile",
     "membership",
@@ -75,8 +75,8 @@ interface CustomerListState {
   customerId: number;
   search: {
     contain: {
-      firstname: string;
-      lastname: string;
+      firstName: string;
+      lastName: string;
     };
   };
 }
@@ -113,8 +113,8 @@ class CustomerListPage extends React.Component<
     customerList: [],
     search: {
       contain: {
-        firstname: "",
-        lastname: "",
+        firstName: "",
+        lastName: "",
       },
     },
   };
@@ -211,7 +211,7 @@ class CustomerListPage extends React.Component<
     const action = getAction(NEW_CUSTOMER);
     this.props.newCustomer(action);
     // @ts-ignore
-    this.props.history.push("/newcustomer");
+    this.props.history.push("/newCustomer");
   }
 
   render() {
@@ -292,9 +292,9 @@ class CustomerListPage extends React.Component<
                     <TextField
                       placeholder="First Name"
                       label="First Name"
-                      name="firstname"
+                      name="firstName"
                       fullWidth={true}
-                      value={this.state.search.contain.firstname}
+                      value={this.state.search.contain.firstName}
                       onChange={this.handleSearchFilter}
                     />
                   </Grid>
@@ -303,8 +303,8 @@ class CustomerListPage extends React.Component<
                       placeholder="Last Name"
                       label="Last Name"
                       fullWidth={true}
-                      name="lastname"
-                      value={this.state.search.contain.lastname}
+                      name="lastName"
+                      value={this.state.search.contain.lastName}
                       onChange={this.handleSearchFilter}
                     />
                   </Grid>
