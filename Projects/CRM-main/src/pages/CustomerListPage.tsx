@@ -12,7 +12,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import { thunkApiCall } from "../services/thunks";
 import { LIST_CUSTOMER, DELETE_CUSTOMER, NEW_CUSTOMER } from "../store/types";
 import { Customer, SearchFilter } from "../types";
-
 import Alert from "../components/Alert";
 import DataTable from "../components/DataTable";
 import SkeletonList from "../components/SkeletonList";

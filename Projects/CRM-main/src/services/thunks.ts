@@ -204,8 +204,7 @@ function dispatchReponse(dispatch, type, response) {
       dispatch(listProduct(response.data));
       break;
 
-    case GET_PRODUCT:
-      dispatch(getProduct(response.data));
+    case GET_PRODUCT:   dispatch(getProduct(response.data));
       break;
     case NEW_PRODUCT:
       dispatch(newProduct(response));

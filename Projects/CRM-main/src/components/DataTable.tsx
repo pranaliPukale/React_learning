@@ -156,7 +156,6 @@ function DataTable<DataTableProps>({
           )}
         </TableBody>
       </Table>
-
       {items.length > 0 && (
         <Container style={styles.pagination}>
           <Pagination
